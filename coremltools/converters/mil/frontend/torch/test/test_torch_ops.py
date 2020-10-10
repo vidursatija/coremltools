@@ -1401,3 +1401,13 @@ class TestRepeat:
 
         model = ModuleWrapper(function=lambda x: x.repeat(*repeats))
         run_compare_torch(input_shape, model, backend=backend)
+
+class TestCopy:
+    @pytest.mark.parametrize(
+        "backend, rank", itertools.product(backends, list(range(1, 6))),
+    )
+    def test_copy(self, backend, rank):
+        input_shape = tuple(np.random.randint(low=2, high=6, size=rank))
+
+        model = ModuleWrapper(function=lambda x: x.copy_())
+        run_compare_torch(input_shape, model, backend=backend)
